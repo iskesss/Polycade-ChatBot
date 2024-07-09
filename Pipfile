@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 langchain-openai = "*"
+beautifulsoup4 = "*"
+langchain = "*"
+requests = "*"
+html2text = "*"
 
 [dev-packages]
 
