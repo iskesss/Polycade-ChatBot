@@ -15,11 +15,34 @@ def ingest_all_polycade_data() -> (
 
     outfile = open("development/everything_ingested.txt", "w")
 
-    sites_to_crawl = [
+    sites_to_crawl = {  # using a set prevents accidental duplicates
         "https://polycade.com/",
         "https://polycade.com/collections/arcade-machines",
         "https://polycade.com/collections/arcade-machines/products/polycade-sente-white-with-stripes",
-    ]
+        "https://polycade.com/collections/arcade-machines/products/polycade-retro?variant=42403902390464",
+        "https://polycade.com/collections/arcade-machines/products/polycade-squadcade",
+        "https://polycade.com/products/polycade-gamepad",
+        "https://polycade.com/products/light-guns",
+        "https://polycade.com/products/light-gun-holsters",
+        "https://polycade.com/products/light-guns-holsters-set",
+        "https://polycade.com/products/trackball-arcade-controller",
+        "https://polycade.com/products/spinflight-arcade-controller",
+        "https://polycade.com/products/retro-4-way-arcade-controller",
+        "https://polycade.com/products/dual-stick-arcade-controller",
+        "https://polycade.com/products/buttonmash-arcade-controller",
+        "https://polycade.com/products/standard-joystick-panel",
+        "https://polycade.com/products/neo-arcade-controller-board",
+        "https://polycade.com/products/magnet-pack",
+        "https://polycade.com/products/storage-rack",
+        "https://polycade.com/products/cupholders-panel-inserts",
+        "https://polycade.com/products/console-shelf",
+        "https://polycade.com/products/atx-pc-chassis",
+        "https://polycade.com/products/retro-bar-stool",
+        "https://polycade.com/products/modern-bar-stool",
+        "https://polycade.com/collections/commercial-pay-to-play-accessories/products/commercial-kit",
+        "https://polycade.com/collections/commercial-pay-to-play-accessories/products/credit-card-reader",  # exclude? offers very little info
+        "https://polycade.com/collections/commercial-pay-to-play-accessories/products/bill-validator",  # exclude? offers very little info
+    }
 
     random.shuffle(sites_to_crawl)  # to prevent a blacklist from the Polycade server
 
@@ -68,8 +91,14 @@ def raw_site_text(url: str) -> None:
 
 # test_single_site_ingestion("https://polycade.com/collections/arcade-machines")
 
-raw_site_text("https://polycade.com/collections/arcade-machines")
+raw_site_text(
+    "https://polycade.com/collections/commercial-pay-to-play-accessories/products/credit-card-reader"
+)
 
 # TODO: Ingest polycade machine locations.
 
+# TODO: Ingest all the info you manually compiled in that Obsidian file
+
 # TODO: MAYBE implement MMR to reduce repetition.
+
+# TODO: Once you have copy priviledges, add this to your corpus of product info: https://docs.google.com/spreadsheets/d/1DDXZDdminwp1kD0hk1KWA1Q55nerNY1uERJt7sufy-4/edit?gid=0#gid=0
