@@ -19,19 +19,15 @@ def get_data_from_website(url):
         print("Server error")
         return
     # Parse the HTML content using BeautifulSoup
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    # outfile = open("development/show_raw_site_text.txt", "w")  # DELETE LATER!
+    # outfile.write(str(soup.find("main")))  # DELETE LATER!
+    # outfile.close()  # DELETE LATER!
 
     # Removing js and css code
     for script in soup(["script", "style"]):
         script.extract()
-
-    # Extract text in markdown format
-    html = str(soup)
-    html2text_instance = html2text.HTML2Text()
-    html2text_instance.images_to_alt = True
-    html2text_instance.body_width = 0
-    html2text_instance.single_line_break = True
-    text = html2text_instance.handle(html)
 
     # Extract page metadata
     try:
@@ -49,9 +45,29 @@ def get_data_from_website(url):
     else:
         meta_keywords = ""
 
-    metadata = {'title': page_title,
-                'url': url,
-                'description': description,
-                'keywords': meta_keywords}
+    metadata = {
+        "title": page_title,
+        "url": url,
+        "description": description,
+        "keywords": meta_keywords,
+    }
+
+    # Ensure that only the main content of the Polycade webpage is extracted, not the main menu or footers
+    soup = soup.find("main")
+
+    # Extract text in markdown format
+    html = str(soup)
+    html2text_instance = html2text.HTML2Text()
+    html2text_instance.images_to_alt = True
+    html2text_instance.body_width = 0
+    html2text_instance.single_line_break = True
+    text = html2text_instance.handle(html)
 
     return text, metadata
+
+
+# -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+get_data_from_website(
+    "https://polycade.com/collections/arcade-machines/products/polycade-sente-white-with-stripes"
+)

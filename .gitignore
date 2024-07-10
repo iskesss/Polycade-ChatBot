@@ -1,3 +1,5 @@
 .env
 .DS_Store
 demo.ipynb
+__pycache__/
+development/
