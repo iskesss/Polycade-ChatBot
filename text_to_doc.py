@@ -38,7 +38,9 @@ def clean_text(text):
     return text
 
 
-def text_to_docs(text, metadata):
+def text_to_docs(
+    text: str, metadata: dict, chunk_size: int = 1024, chunk_overlap: int = 128
+):
     """
     Converts input text to a list of Documents with metadata.
 
@@ -50,7 +52,10 @@ def text_to_docs(text, metadata):
         List[Document]: List of documents.
     """
     doc_chunks = []
-    text_splitter = MarkdownTextSplitter(chunk_size=1024, chunk_overlap=128)
+    text_splitter = MarkdownTextSplitter(
+        chunk_size=chunk_size, chunk_overlap=chunk_overlap
+    )
+
     chunks = text_splitter.split_text(text)
     for i, chunk in enumerate(chunks):
         doc = Document(page_content=chunk, metadata=metadata)
@@ -58,7 +63,9 @@ def text_to_docs(text, metadata):
     return doc_chunks
 
 
-def get_doc_chunks(text, metadata):
+def get_doc_chunks(
+    text: str, metadata: dict, chunk_size: int = 1024, chunk_overlap: int = 128
+):
     """
     Processes the input text and metadata to generate document chunks.
 
@@ -74,5 +81,8 @@ def get_doc_chunks(text, metadata):
     """
     # TODO: Does clean text actually make the text more legible to LLMs? Because it certainly becomes less readable to humans.
     text = clean_text(text)
-    doc_chunks = text_to_docs(text, metadata)
+    doc_chunks = text_to_docs(
+        text=text, metadata=metadata, chunk_size=chunk_size, chunk_overlap=chunk_overlap
+    )
+
     return doc_chunks

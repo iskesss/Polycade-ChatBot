@@ -9,6 +9,9 @@ beautifulsoup4 = "*"
 langchain = "*"
 requests = "*"
 html2text = "*"
+pinecone-client = "*"
+langchain-pinecone = "*"
+langchain-community = "*"
 
 [dev-packages]
 
