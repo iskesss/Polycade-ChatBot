@@ -195,7 +195,7 @@ def num_tokens_from_txt_file(filepath: str, encoding_name: str) -> int:
 
 # -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-ingest_all_polycade_data()
+# ingest_all_polycade_data()
 
 # test_single_site_ingestion("https://polycade.com/collections/arcade-machines")
 

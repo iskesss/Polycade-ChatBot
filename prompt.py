@@ -2,7 +2,7 @@ from langchain.prompts import (
     SystemMessagePromptTemplate,
     PromptTemplate,
     ChatPromptTemplate,
-    HumanMessagePromptTemplate
+    HumanMessagePromptTemplate,
 )
 
 system_prompt = """You are an expert support agent at {organization_name}. {organization_info}
@@ -29,22 +29,39 @@ def get_prompt():
         ChatPromptTemplate: Prompt.
     """
     prompt = ChatPromptTemplate(
-        input_variables=['context', 'question', 'chat_history', 'organization_name', 'organization_info', 'contact_info'],
+        input_variables=[
+            "context",
+            "question",
+            "chat_history",
+            "organization_name",
+            "organization_info",
+            "contact_info",
+        ],
         messages=[
             SystemMessagePromptTemplate(
                 prompt=PromptTemplate(
-                    input_variables=['context', 'chat_history', 'organization_name', 'organization_info', 'contact_info'],
-                    template=system_prompt, template_format='f-string',
-                    validate_template=True
-                ), additional_kwargs={}
+                    input_variables=[
+                        "context",
+                        "chat_history",
+                        "organization_name",
+                        "organization_info",
+                        "contact_info",
+                    ],
+                    template=system_prompt,
+                    template_format="f-string",
+                    validate_template=True,
+                ),
+                additional_kwargs={},
             ),
             HumanMessagePromptTemplate(
                 prompt=PromptTemplate(
-                    input_variables=['question'],
-                    template='{question}\nHelpful Answer:', template_format='f-string',
-                    validate_template=True
-                ), additional_kwargs={}
-            )
-        ]
+                    input_variables=["question"],
+                    template="{question}\nHelpful Answer:",
+                    template_format="f-string",
+                    validate_template=True,
+                ),
+                additional_kwargs={},
+            ),
+        ],
     )
     return prompt

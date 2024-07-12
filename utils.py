@@ -1,5 +1,4 @@
 from langchain_openai import ChatOpenAI
-from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from text_to_doc import get_doc_chunks
 from web_crawler import get_data_from_website
@@ -7,7 +6,7 @@ from prompt import get_prompt
 from langchain.chains import ConversationalRetrievalChain
 
 
-def get_chroma_client():
+def get_chroma_client():  # TODO: delete this function
     """
     Returns a chroma vector store instance.
 
@@ -18,10 +17,11 @@ def get_chroma_client():
     return Chroma(
         collection_name="website_data",
         embedding_function=embedding_function,
-        persist_directory="data/chroma")
+        persist_directory="data/chroma",
+    )
 
 
-def store_docs(url):
+def store_docs(url):  # TODO: delete this function
     """
     Retrieves data from a website, processes it into document chunks, and stores them in a vector store.
 
@@ -45,11 +45,7 @@ def make_chain():
     Returns:
         langchain.chains.ConversationalRetrievalChain: ConversationalRetrievalChain instance.
     """
-    model = ChatOpenAI(
-            model_name="gpt-3.5-turbo",
-            temperature=0.0,
-            verbose=True
-        )
+    model = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.0, verbose=True)
     vector_store = get_chroma_client()
     prompt = get_prompt()
 
@@ -81,7 +77,13 @@ def get_response(question, organization_name, organization_info, contact_info):
     """
     chat_history = ""
     chain = make_chain()
-    response = chain({"question": question, "chat_history": chat_history,
-                      "organization_name": organization_name, "contact_info": contact_info,
-                      "organization_info": organization_info})
-    return response['answer']
+    response = chain(
+        {
+            "question": question,
+            "chat_history": chat_history,
+            "organization_name": organization_name,
+            "contact_info": contact_info,
+            "organization_info": organization_info,
+        }
+    )
+    return response["answer"]
