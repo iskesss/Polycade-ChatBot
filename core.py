@@ -91,11 +91,6 @@ def APWIN(chat_history: list[(str, any)]) -> str:
     chat_history_copy = copy.deepcopy(chat_history)
     chat_history_copy = [chat for chat in chat_history_copy if chat[0] != "system"]
 
-    # all of the system prompts are really lengthy. they would add a bit of contextual value in helping PolyBot decides what it needs, however probably aren't worth the extra tokens
-    # for chat in chat_history:
-    #     if chat[0] == "system":
-    #         chat_history.remove(chat)
-
     context = "You are a customer support chatbot for Polycade, an all-in-one arcade machine company. You've been helping a customer but so far havn't answered their question. Here's the chat history:"
     polybots_task = "At this point, what further context would you need to best answer the customer's question? Provide a single sentence summarizing what you'll need. Think of this like a database search. No personal pronouns."
 
@@ -159,17 +154,8 @@ A human customer has just come to you with a question!
         print("Chat history detected. Continuing chat with PolyBot.")
         chat_history.append(("human", "'" + prompt + "?'"))
 
-        print("\n\n")
-        print(chat_history)
-        print("\n\n")
-
         polybots_search_term = APWIN(chat_history)
-
-        print("\n\n")
-        print(chat_history)
-        print("\n\n")
-
-        print("PolyBot's search term: " + polybots_search_term)
+        print("Polybot thinks '" + polybots_search_term + "'")
 
         # Now fetch two relevant document's worth of context based on polybots_search_term
         chat_history.append(
@@ -200,10 +186,6 @@ output = chat_with_polybot(prompt="How much is the Polycade squadcade?")
 chat_history = output[1]
 chat_history.append(("ai", output[0].content))
 
-print("CHAT HISTORY AFTER FIRST CHAT FUNCTION CALL\n")
-print(ChatPromptTemplate.from_messages(chat_history).format())
-print("\n")
-
 second_output = chat_with_polybot(
     prompt="No but like how much does it weigh?", chat_history=chat_history
 )
@@ -211,9 +193,8 @@ second_output = chat_with_polybot(
 chat_history = second_output[1]
 chat_history.append(("ai", second_output[0].content))
 
-print("CHAT HISTORY AFTER SECOND CHAT FUNCTION CALL\n")
 print(ChatPromptTemplate.from_messages(chat_history).format())
-print("\n")
+
 
 # print(query_vectorstore("How much does the Polycade cost?", 2)[0].page_content)
 
