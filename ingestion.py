@@ -170,11 +170,6 @@ def raw_site_text(url: str) -> None:
     return
 
 
-def calculate_embedding_cost(file_path: str) -> float:
-    with open(file_path, "r") as file:
-        markdown_text = file.read()
-
-
 def num_tokens_from_md_file(filepath: str, encoding_name: str) -> int:
     """Returns the number of tokens from a given markdown file."""
     with open(filepath, "r") as file:

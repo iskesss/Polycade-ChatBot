@@ -12,6 +12,8 @@ html2text = "*"
 pinecone-client = "*"
 langchain-pinecone = "*"
 langchain-community = "*"
+streamlit = "*"
+streamlit-chat = "*"
 
 [dev-packages]
 

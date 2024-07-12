@@ -141,7 +141,7 @@ A human customer has just come to you with a question!
     if not chat_history:  # the user is asking their question
         print("No chat history detected. Starting a new chat with PolyBot.")
         chat_history.append(("system", polybots_purpose))
-        chat_history.append(("human", "'" + prompt + "?'"))
+        chat_history.append(("human", prompt))
         # Now fetch four relevant document's worth of context
         chat_history.append(
             (
@@ -152,7 +152,7 @@ A human customer has just come to you with a question!
 
     else:  # the user must have a followup
         print("Chat history detected. Continuing chat with PolyBot.")
-        chat_history.append(("human", "'" + prompt + "?'"))
+        chat_history.append(("human", prompt))
 
         polybots_search_term = APWIN(chat_history)
         print("Polybot thinks '" + polybots_search_term + "'")
@@ -178,23 +178,37 @@ A human customer has just come to you with a question!
     )  # TODO: adjust this function's documentation to disclose this new tuple returntype
 
 
+def chat_with_regular_chatgpt(prompt: str, chat_history: list[(str, any)] = []):
+    chat_history.append(("human", prompt))
+    template = ChatPromptTemplate.from_messages(chat_history)
+    chat_instance = ChatOpenAI(model="gpt-3.5-turbo-0125")
+    chain = template | chat_instance
+
+    return (
+        chain.invoke({}),
+        chat_history,
+    )  # TODO: adjust this function's documentation to disclose this new tuple returntype
+
+
 # -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
+# print(chat_with_regular_chatgpt(prompt="Hello! How are you?")[0].content)
 
-output = chat_with_polybot(prompt="How much is the Polycade squadcade?")
+# output = chat_with_polybot(prompt="How much is the Polycade squadcade?")
 
-chat_history = output[1]
-chat_history.append(("ai", output[0].content))
+# chat_history = output[1]
+# chat_history.append(("ai", output[0].content))
 
-second_output = chat_with_polybot(
-    prompt="No but like how much does it weigh?", chat_history=chat_history
-)
+# second_output = chat_with_polybot(
+#     prompt="No but like how much does it weigh?", chat_history=chat_history
+# )
 
-chat_history = second_output[1]
-chat_history.append(("ai", second_output[0].content))
+# chat_history = second_output[1]
+# chat_history.append(("ai", second_output[0].content))
 
-print(ChatPromptTemplate.from_messages(chat_history).format())
+# print(ChatPromptTemplate.from_messages(chat_history).format())
 
+# -_-_-_-_-_-_-_-_-_-_-_-_-_-
 
 # print(query_vectorstore("How much does the Polycade cost?", 2)[0].page_content)
 
