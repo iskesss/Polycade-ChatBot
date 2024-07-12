@@ -6,8 +6,6 @@ from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import MarkdownTextSplitter
 import time
 import random
-
-# import openai
 import tiktoken
 
 
@@ -69,10 +67,7 @@ def ingest_all_polycade_data() -> (
 
     # random.shuffle(sites_to_crawl)  # to prevent a blacklist from the Polycade server. but we can't .shuffle() a set. shit!
 
-    pc = Pinecone()  # api key is in .env
-    # index = pc.Index( # TODO: is this needed?
-    #     name="website-knowledgebase"
-    # )  # this never gets used but apparently it's supposed to be here
+    pc = Pinecone()  # i don't think we actually need this here
 
     embeddings_instance = OpenAIEmbeddings(model="text-embedding-3-large")
 
